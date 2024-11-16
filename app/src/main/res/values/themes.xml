@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<style name="Theme.EMobileTheme" parent="android:Theme.Material.Light.NoActionBar" >
+    <item name="android:windowTranslucentStatus">false</item>
+    <item name="android:windowLightStatusBar">true</item>
+    <item name="android:statusBarColor">
+        @color/primary
+    </item>
+    <item name="android:colorPrimary">
+        @color/primary
+    </item>
+    <item name="android:navigationBarColor">
+        @color/primary
+    </item>
+</style>
+
+<style name="Theme.EMobileTheme.Starting" parent="Theme.SplashScreen">
+    <!-- Configurações de estilo da Splash Screen -->
+    <item name="windowSplashScreenBackground">@color/primary</item>
+    <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_round</item>
+    <item name="windowSplashScreenIconBackgroundColor">@color/primary</item>
+
+    <!-- Tema a ser aplicado após a Splash Screen -->
+    <item name="postSplashScreenTheme">@style/Theme.EMobileTheme</item>
+</style>
+
+</resources>

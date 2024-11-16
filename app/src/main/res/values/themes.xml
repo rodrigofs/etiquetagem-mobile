@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-<style name="Theme.EMobileTheme" parent="android:Theme.Material.Light.NoActionBar" >
-    <item name="android:windowTranslucentStatus">false</item>
-    <item name="android:windowLightStatusBar">true</item>
+<resources xmlns:tools="http://schemas.android.com/tools">
+<style name="Theme.App" parent="Theme.MaterialComponents.Light.NoActionBar" >
+    <item name="android:windowTranslucentStatus">true</item>
+    <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+    <item name="isLightTheme" >true</item>
+    <item name="android:windowBackground">@color/white</item>
+    <item name="android:colorBackground" >@android:color/white</item>
+    <item name="android:colorForeground" >@android:color/white</item>
     <item name="android:statusBarColor">
         @color/primary
     </item>
@@ -12,16 +16,29 @@
     <item name="android:navigationBarColor">
         @color/primary
     </item>
+    <item name="android:windowLightStatusBar">@android:color/white</item>
 </style>
 
-<style name="Theme.EMobileTheme.Starting" parent="Theme.SplashScreen">
+<style name="Theme.App.Starting" parent="Theme.SplashScreen.IconBackground">
     <!-- Configurações de estilo da Splash Screen -->
-    <item name="windowSplashScreenBackground">@color/primary</item>
+    <item name="isLightTheme" >true</item>
+    <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+    <item name="android:opacity">opaque</item>
+    <item name="android:windowDrawsSystemBarBackgrounds" >false</item>
+    <item name="android:windowTranslucentStatus">true</item>
+    <item name="android:windowBackground">@drawable/ic_launcher_background</item>
+    <item name="android:colorBackground" >@android:color/white</item>
+    <item name="android:colorForeground" >@android:color/white</item>
+    <item name="android:statusBarColor" >@android:color/white</item>
+    <item name="android:colorForegroundInverse" >@android:color/white</item>
+    <item name="android:colorBackgroundCacheHint" >@android:color/white</item>
+    <item name="android:windowLightStatusBar">true</item>
+    <item name="windowSplashScreenBackground">@android:color/white</item>
     <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_round</item>
-    <item name="windowSplashScreenIconBackgroundColor">@color/primary</item>
+    <item name="windowSplashScreenIconBackgroundColor">@android:color/white</item>
 
     <!-- Tema a ser aplicado após a Splash Screen -->
-    <item name="postSplashScreenTheme">@style/Theme.EMobileTheme</item>
+    <item name="postSplashScreenTheme">@style/Theme.App</item>
 </style>
 
 </resources>

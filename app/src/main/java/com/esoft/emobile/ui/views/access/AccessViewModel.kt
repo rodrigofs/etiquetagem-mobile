@@ -11,6 +11,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -28,12 +29,25 @@ class AccessViewModel @Inject constructor(
 
     val uiState get() = _uiState.asStateFlow()
 
+    init {
+        loadInitialData()
+    }
+
+    private fun loadInitialData() {
+        viewModelScope.launch(Dispatchers.Main) {
+            val acronym = configurationRepository.acronym()
+            acronym.let {
+                withContext(Dispatchers.Main) {
+                    _uiState.value.form.acronym.state.value = it.first()
+                    if (it.first().isNotEmpty()) _uiState.value.acronymLoaded.value = true
+                }
+            }
+        }
+    }
 
     fun access() = viewModelScope.launch {
 
         _uiState.value.form.validate(true)
-        //_uiState.value.form.plate.errorText.clear()
-        //_uiState.value.form.acronym.errorText.clear()
 
         if (_uiState.value.form.isValid) {
 
@@ -50,7 +64,6 @@ class AccessViewModel @Inject constructor(
                         }
                     }
                 }
-
 
                 lacronym
             }

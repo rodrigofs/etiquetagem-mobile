@@ -22,7 +22,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.EMobileTheme.Starting"
+        android:theme="@style/Theme.App"
         android:name=".App"
         android:usesCleartextTraffic="${ALLOW_HTTP_TRAFFIC}"
         android:networkSecurityConfig="${NETWORK_SECURITY_CONFIG}"
@@ -30,7 +30,8 @@
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.EMobileTheme.Starting">
+            android:systemUserOnly="false"
+            android:theme="@style/Theme.App.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

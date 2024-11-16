@@ -27,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -60,6 +61,7 @@ fun PrintTagScreen(
     val state = viewModel.uiState.collectAsStateWithLifecycle()
     val scope = rememberCoroutineScope()
     val focusChaveAcessoRequester = remember { FocusRequester() }
+    val focusVolumesRequester = remember { FocusRequester() }
 
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -75,7 +77,13 @@ fun PrintTagScreen(
         }
     }
 
-    ScreenBase(title = "Impressão de Etiquetas") {
+    LaunchedEffect(Unit) {
+        focusChaveAcessoRequester.requestFocus()
+    }
+
+    ScreenBase(
+        title = "Impressão de Etiquetas",
+        onLogoff = { scope.launch { viewModel.clearPlate() } }) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -116,28 +124,6 @@ fun PrintTagScreen(
 
             }
 
-//            TextField(
-//                modifier = Modifier
-//                    .fillMaxWidth(),
-//                form = state.value.form,
-//                fieldState = state.value.form.accessKey,
-//                keyboardOptions = KeyboardOptions(
-//                    keyboardType = KeyboardType.Number,
-//                    autoCorrect = false,
-//                    imeAction = ImeAction.Next
-//                ),
-//                trailingIcon = {
-//                    Icon(
-//                        modifier = Modifier.clickable {
-//                            viewModel.readBarcode()
-//                        },
-//                        imageVector = Icons.Outlined.QrCodeScanner,
-//                        contentDescription = "Ler código de barras"
-//                    )
-//                },
-//                label = "Chave de Acesso",
-//            ).Field()
-
             Row(
                 Modifier
                     .padding(top = 10.dp)
@@ -148,12 +134,13 @@ fun PrintTagScreen(
                 TextField(
                     modifier = modifier
                         .weight(.5f)
+                        .focusRequester(focusVolumesRequester)
                         .height(IntrinsicSize.Min),
                     form = state.value.form,
                     fieldState = state.value.form.volumes,
                     keyboardOptions = KeyboardOptions(
+                        autoCorrectEnabled = false,
                         keyboardType = KeyboardType.Number,
-                        autoCorrect = false,
                         imeAction = ImeAction.Go
                     ),
                     keyboardActions = KeyboardActions(
@@ -266,7 +253,10 @@ fun PrintTagScreen(
                 LoadingButton(
                     loading = viewModel.printing.value,
                     onClick = {
-                        viewModel.startPrint(state.value.nf.value.etiquetas, bluetoothViewModel.zplPrinter)
+                        viewModel.startPrint(
+                            state.value.nf.value.etiquetas,
+                            bluetoothViewModel.zplPrinter
+                        )
                     },
                     modifier = Modifier.fillMaxWidth()
                 ) {

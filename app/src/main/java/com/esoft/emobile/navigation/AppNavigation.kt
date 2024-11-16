@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import com.esoft.emobile.support.PermissionManager
 import com.esoft.emobile.ui.MainActivityViewModel
 import com.esoft.emobile.ui.customization.ui.customization.GlobalSnackbarScreen
+import com.esoft.emobile.ui.views.access.AccessScreen
 import com.esoft.emobile.ui.views.printer.BluetoothScreen
 import com.esoft.emobile.ui.views.tag.PrintTagScreen
 
@@ -16,15 +17,27 @@ fun AppNavigation(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     bluetoothViewModel: MainActivityViewModel,
+    startDestination: String,
     permissionManager: PermissionManager
 ) {
 
     GlobalSnackbarScreen { showSnackbar ->
         NavHost(
             navController = navController,
-            startDestination = AppDestination.ConnectPrint.route,
+            startDestination = startDestination,
             modifier = modifier
         ) {
+            composable(AppDestination.Access.route) {
+                AccessScreen(
+                    navController = navController,
+//                    onConnectPrint = {
+//                        navController.navigate(AppDestination.ConnectPrint.route){
+//                            popUpTo(navController.graph.id) { inclusive = true }
+//                        }
+//                    }
+                )
+            }
+
             composable(AppDestination.ConnectPrint.route) {
                 BluetoothScreen(
                     navController = navController,

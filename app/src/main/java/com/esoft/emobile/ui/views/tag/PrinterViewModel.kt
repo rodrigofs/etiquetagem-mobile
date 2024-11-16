@@ -43,9 +43,9 @@ class PrinterViewModel @Inject constructor(
     val fetching = mutableStateOf(false)
     val printing = mutableStateOf(false)
 
-    init {
-        uiState.value.form.accessKey.state.value = "43240407413349000102550000000091931000014636"
-    }
+//    init {
+//        uiState.value.form.accessKey.state.value = "43240407413349000102550000000091931000014636"
+//    }
 
     private val nfeValidator = NFeAccessKeyValidator()
 

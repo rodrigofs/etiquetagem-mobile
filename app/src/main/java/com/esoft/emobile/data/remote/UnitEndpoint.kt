@@ -9,5 +9,5 @@ import retrofit2.http.Path
 interface UnitEndpoint {
     @Headers("Accept: application/json", "Content-Type: application/json")
     @GET("etiqueta-unidade/{unidade}")
-    suspend fun verify(@Path("unidade") unit: String): Response<GetUnitApiResponse>;
+    suspend fun verify(@Path("unidade") unit: String): Response<GetUnitApiResponse>
 }

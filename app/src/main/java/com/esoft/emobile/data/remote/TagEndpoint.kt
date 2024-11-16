@@ -1,4 +1,4 @@
-package com.esoft.emobile.data.remote;
+package com.esoft.emobile.data.remote
 
 import com.esoft.emobile.data.remote.model.GetTagApiResponse
 import retrofit2.Response

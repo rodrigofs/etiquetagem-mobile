@@ -2,8 +2,8 @@
 <resources>
     <color name="primary">#FF005FA1</color>
     <color name="secondary">#FF005FA1</color>
-    <color name="background">#FFBAC7D5</color>
-    <color name="splash_backgroud">#FF005FA1</color>
+    <color name="background">#FFFFFF</color>
+    <color name="splash_backgroud">#FFFFFF</color>
     <color name="green">#FF194B2E</color>
     <color name="red">#FF791717</color>
     <color name="orange">#FFA08123</color>

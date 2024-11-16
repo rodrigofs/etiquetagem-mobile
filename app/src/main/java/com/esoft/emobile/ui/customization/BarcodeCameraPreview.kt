@@ -77,7 +77,7 @@ fun BarcodeCameraPreview(
                 val preview = Preview.Builder()
                     .setTargetRotation(previewView.display.rotation)
                     .build()
-                    .also { it.setSurfaceProvider(previewView.surfaceProvider) }
+                    .also { it.surfaceProvider = previewView.surfaceProvider }
 
                 val imageAnalysis = ImageAnalysis.Builder()
                     .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)

@@ -3,7 +3,9 @@
 package com.esoft.emobile.ui.customization
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
@@ -40,6 +42,7 @@ import androidx.core.view.WindowInsetsCompat
 fun ScreenBase(
     modifier: Modifier = Modifier,
     title: String,
+    onLogoff: () -> Unit = {},
     content: @Composable () -> Unit,
 ) {
     val scrollState = rememberScrollState()
@@ -71,13 +74,15 @@ fun ScreenBase(
                         expanded = showMenu,
                         onDismissRequest = { showMenu = false }
                     ) {
-                        DropdownMenuItem(
-                            text = { Text(text = "Limpar formuário") },
-                            onClick = {
-                                showMenu = false
-                            })
+//                        DropdownMenuItem(
+//                            text = { Text(text = "Limpar formuário") },
+//                            onClick = {
+//                                showMenu = false
+//                            })
 
                         DropdownMenuItem(text = { Text(text = "Alterar placa") }, onClick = {
+                            onLogoff()
+                            showMenu = false
 //                            scope.launch {
 //                                viewModel.clearPlate()
 //                                navigateToAccess()
@@ -100,18 +105,20 @@ fun ScreenBase(
         Surface(
             modifier = modifier
                 .fillMaxSize()
-                .systemBarsPadding().imePadding()
-                .padding(
-                    bottom = WindowInsetsCompat
-                        .toWindowInsetsCompat(
-                            view.rootWindowInsets
-                        )
-                        .getInsets(WindowInsetsCompat.Type.ime()).bottom.toDp(density)
-                )
-                .verticalScroll(scrollState),
+                //.systemBarsPadding().imePadding()
+//                .padding(
+//                    bottom = WindowInsetsCompat
+//                        .toWindowInsetsCompat(
+//                            view.rootWindowInsets
+//                        )
+//                        .getInsets(WindowInsetsCompat.Type.ime()).bottom.toDp(density)
+//                )
+//                .verticalScroll(scrollState),
         ) {
             Column(modifier
                 .padding(paddingValues)
+                .fillMaxWidth()
+                .fillMaxHeight()
                 .padding(top = 4.dp, start = 16.dp, end = 16.dp, bottom = 16.dp)) {
                 content()
             }

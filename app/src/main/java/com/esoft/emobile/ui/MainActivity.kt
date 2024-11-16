@@ -6,17 +6,18 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.material3.MaterialTheme
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.esoft.emobile.navigation.AppDestination
 import com.esoft.emobile.navigation.AppNavigation
 import com.esoft.emobile.support.PermissionManager
 import com.esoft.emobile.ui.theme.EMobileTheme
-import com.esoft.emobile.ui.views.access.AccessScreen
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.InstallStateUpdatedListener
@@ -42,7 +43,12 @@ class MainActivity : ComponentActivity() {
     private val mainViewModel: MainActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         var isDataLoaded = false
+
+        // Força o tema claro
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_UNSPECIFIED)
+
 
         val splashScreen = installSplashScreen()
 
@@ -65,29 +71,31 @@ class MainActivity : ComponentActivity() {
         }
 
         mainViewModel.checkAccessStatus { isActivated ->
+
             isDataLoaded = true
 
             setContent {
 
                 val navController = rememberNavController()
+
                 val backStackEntryState by navController.currentBackStackEntryAsState()
 
                 EMobileTheme {
 
                     Surface(
-                        color = MaterialTheme.colorScheme.background
+                        color = Color.White
                     ) {
-                        if (isActivated) {
-                            AppNavigation(
-                                navController = navController,
-                                permissionManager = permissionManager,
-                                bluetoothViewModel = mainViewModel
-
-                                //modifier = Modifier.padding(innerPadding)
-                            )
-                        } else {
-                            AccessScreen(navController)
-                        }
+                        //if (isActivated) {
+                        AppNavigation(
+                            navController = navController,
+                            permissionManager = permissionManager,
+                            bluetoothViewModel = mainViewModel,
+                            startDestination = if (isActivated) AppDestination.ConnectPrint.route else AppDestination.Access.route
+                            //modifier = Modifier.padding(innerPadding)
+                        )
+//                        } else {
+//                            AccessScreen(navController)
+//                        }
                     }
 
                 }

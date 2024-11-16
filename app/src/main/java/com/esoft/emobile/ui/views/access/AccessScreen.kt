@@ -5,15 +5,16 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -38,12 +39,20 @@ fun AccessScreen(
 
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-    val keyFocusRequester = remember { FocusRequester() }
+    val plateFocusRequester = remember { FocusRequester() }
+    val acronymFocusRequester = remember { FocusRequester() }
 
     val keyboardController = LocalSoftwareKeyboardController.current
 
     fun access() {
         viewModel.access()
+    }
+
+    LaunchedEffect(key1 = state.acronymLoaded.value) {
+        if (state.acronymLoaded.value)
+            plateFocusRequester.requestFocus()
+        else
+            acronymFocusRequester.requestFocus()
     }
 
     Scaffold(modifier = Modifier.padding(16.dp)) { paddinfValues ->
@@ -61,28 +70,30 @@ fun AccessScreen(
 
             TextField(
                 modifier = Modifier
-                    .padding(bottom = 8.dp),
+                    .padding(bottom = 8.dp)
+                    .focusRequester(acronymFocusRequester),
                 label = "Sigla",
                 form = state.form,
+                isEnabled = !state.acronymLoaded.value,
                 fieldState = state.form.acronym,
                 maxLength = 3,
                 visualTransformation = AcronymVisualTransformation(),
                 keyboardOptions = KeyboardOptions(
                     capitalization = KeyboardCapitalization.None,
-                    autoCorrect = false,
+                    autoCorrectEnabled = false,
                     keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.Done
                 )
             ).apply {
-                    changed = { if (it?.length!! <= 3) it.uppercase() ?: "" }
-                }.Field()
+                changed = { if (it?.length!! <= 3) it.uppercase() }
+            }.Field()
 
             Spacer(modifier = Modifier.padding(8.dp))
 
             PlacaTextField(
                 modifier = Modifier.padding(bottom = 8.dp),
                 form = state.form,
-                focusRequester = keyFocusRequester,
+                focusRequester = plateFocusRequester,
                 isEnabled = true,
                 keyboardController = keyboardController,
             )
